@@ -1,3 +1,126 @@
+# Fast Print Test – Junior Programmer
+
+Project ini dibuat sebagai bagian dari **tes teknis Junior Programmer PT. Fast Print**.
+
+Aplikasi dibangun menggunakan **Laravel 12**, **MySQL**, dan **Tailwind CSS** dengan fitur CRUD produk serta integrasi API eksternal Fast Print.
+
+---
+
+## 🚀 Tech Stack
+
+- **Framework**: Laravel 12
+- **Database**: MySQL
+- **Frontend**: Blade + Tailwind CSS
+- **HTTP Client**: Laravel HTTP Client
+- **PHP Version**: ≥ 8.2
+
+---
+
+## 📋 Fitur Aplikasi
+
+- Mengambil data produk dari API Fast Print
+- Menyimpan data ke database (produk, kategori, status)
+- Menampilkan seluruh produk
+- Menampilkan produk dengan status **“bisa dijual”**
+- CRUD Produk (Tambah, Edit, Hapus)
+- Validasi form input
+- Konfirmasi sebelum hapus data
+
+---
+
+## 🛠️ Cara Menjalankan Project
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/Maisho20/fast-print-test.git
+```
+
+Masuk ke folder project:
+
+```bash
+cd fast-print-test
+```
+
+### 2️. Install Dependency PHP
+
+Pastikan Composer sudah terinstall.
+
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment
+
+Copy file environment:
+
+```bash
+cp .env.example .env
+```
+
+Atur konfigurasi database di file .env:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Pastikan database sudah dibuat di MySQL / phpMyAdmin.
+
+### 4. Generate Application Key
+
+```bash
+php artisan key:generate
+
+```
+
+### 5. Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+### 6. Install Asset Frontend (Tailwind CSS)
+
+Pastikan Node.js sudah terinstall.
+
+```bash
+npm install
+npm run build
+```
+
+### 7. Import Data Produk dari API
+
+Jalankan server Laravel:
+
+```bash
+php artisan serve
+```
+
+Lalu akses di browser:
+
+```
+http://127.0.0.1:8000/import-produk
+```
+
+Jika berhasil, akan muncul pesan:
+
+`Import produk berhasil`
+
+Jika gagal mengambil data dari API, pastikan **username** dan **password** di controller yang bernama `ProdukImportController.php` sudah benar
+
+### 8. Akses Aplikasi
+
+Buka browser:
+
+```
+http://127.0.0.1:8000/produk
+```
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
