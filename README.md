@@ -28,6 +28,56 @@ Aplikasi dibangun menggunakan **Laravel 12**, **MySQL**, dan **Tailwind CSS** de
 
 ---
 
+## 🔄 Alur Aplikasi
+
+1. Aplikasi mengambil data produk dari API Fast Print menggunakan method POST.
+2. Data produk disimpan ke database dengan struktur terpisah antara produk, kategori, dan status.
+3. Data produk ditampilkan dalam bentuk tabel.
+4. Pengguna dapat:
+    - Menambah produk
+    - Mengubah data produk
+    - Menghapus produk
+5. Aplikasi menyediakan halaman khusus untuk menampilkan produk dengan status **bisa dijual**.
+
+---
+
+## 📸 Screenshot Aplikasi
+
+### Halaman List Produk
+
+## ![List Produk](docs/screenshots/Halaman-List-Produk.png)
+
+### Produk Bisa Dijual
+
+![Produk Bisa Dijual](docs/screenshots/Halaman-Produk-Bisa-Dijual.png)
+
+### Form Tambah Produk
+
+![Form Tambah Produk](docs/screenshots/Form-Tambah-Produk.png)
+
+### Form Edit Produk
+
+![Form Edit Produk](docs/screenshots/Form-Edit-Produk.png)
+
+## 🗄️ Struktur Database
+
+- **produk**
+    - id_produk
+    - nama_produk
+    - harga
+    - kategori_id
+    - status_id
+
+- **kategori**
+    - id_kategori
+    - nama_kategori
+
+- **status**
+    - id_status
+    - nama_status
+
+---
+
 ## 🛠️ Cara Menjalankan Project
 
 ### 1. Clone Repository
