@@ -6,50 +6,82 @@ use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class ProdukImportController extends Controller
 {
     public function import()
     {
-        $response = Http::asForm()->post(
-            'https://recruitment.fastprint.co.id/tes/api_tes_programmer',
-            [
-                'username' => 'tesprogrammer300126C15',
-                'password' => md5('bisacoding-30-01-26'),
-            ]
-        );
+        DB::beginTransaction();
 
-        if ($response->failed()) {
-            return 'Gagal mengambil data API';
-        }
-
-        $items = $response->json('data');
-
-        foreach ($items as $item) {
-
-            // 1️⃣ kategori
-            $kategori = Kategori::firstOrCreate([
-                'nama_kategori' => trim($item['kategori'])
-            ]);
-
-            // 2️⃣ status
-            $status = Status::firstOrCreate([
-                'nama_status' => trim($item['status'])
-            ]);
-
-            // 3️⃣ produk
-            Produk::updateOrCreate(
-                ['id_produk' => (int)$item['id_produk']],
+        try {
+            $response = Http::asForm()->post(
+                'https://recruitment.fastprint.co.id/tes/api_tes_programmer',
                 [
-                    'nama_produk' => $item['nama_produk'],
-                    'harga' => (int)$item['harga'],
-                    'kategori_id' => $kategori->id_kategori,
-                    'status_id' => $status->id_status,
+                    'username' => 'tesprogrammer030226C08',
+                    'password' => md5('bisacoding-03-02-26'),
                 ]
             );
-        }
 
-        return 'Import produk berhasil';
+            if ($response->failed()) {
+                return redirect()->back()->with('error', 'Gagal mengambil data dari API.');
+            }
+
+            $items = $response->json('data');
+
+            if (empty($items)) {
+                return redirect()->back()->with('error', 'Data dari API kosong.');
+            }
+
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+            DB::table('produk')->delete();
+            DB::table('kategori')->delete();
+            DB::table('status')->delete();
+
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+
+            $kategoriMap = [];
+            $statusMap = [];
+
+            foreach ($items as $item) {
+                $kategoriNama = trim($item['kategori']);
+                $statusNama = trim($item['status']);
+
+                if (!isset($kategoriMap[$kategoriNama])) {
+                    $kategori = Kategori::create(['nama_kategori' => $kategoriNama]);
+                    $kategoriMap[$kategoriNama] = $kategori->id_kategori;
+                }
+
+                if (!isset($statusMap[$statusNama])) {
+                    $status = Status::create(['nama_status' => $statusNama]);
+                    $statusMap[$statusNama] = $status->id_status;
+                }
+            }
+
+            $produkData = [];
+            foreach ($items as $item) {
+                $produkData[] = [
+                    'id_produk' => (int)$item['id_produk'],
+                    'nama_produk' => $item['nama_produk'],
+                    'harga' => (int)$item['harga'],
+                    'kategori_id' => $kategoriMap[trim($item['kategori'])],
+                    'status_id' => $statusMap[trim($item['status'])],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            Produk::insert($produkData);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Data produk berhasil diimpor dari API.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }
