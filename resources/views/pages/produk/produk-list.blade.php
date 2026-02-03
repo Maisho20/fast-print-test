@@ -12,13 +12,19 @@
             </a>
         </div>
 
-        @if (session('success'))
+        <div class="flex flex-row-reverse mb-5">
+            <a href="{{ route('import.produk') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Refresh Data dari API
+            </a>
+        </div>
+
+        @if (session()->has('success'))
             <div class="mb-4 bg-green-100 text-green-700 px-4 py-2 rounded">
                 {{ session('success') }}
             </div>
         @endif
 
-        <table class="w-full border table-auto">
+        <table class="w-full border table-auto mt-5">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="p-2 border">No</th>
