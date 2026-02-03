@@ -30,7 +30,7 @@ Aplikasi dibangun menggunakan **Laravel 12**, **MySQL**, dan **Tailwind CSS** de
 
 ## 🔄 Alur Aplikasi
 
-1. Aplikasi mengambil data produk dari API Fast Print menggunakan method POST.
+1. Aplikasi mengambil data produk dari API Fast Print menggunakan method POST dengan klik tombol refresh pada halaman produk.
 2. Data produk disimpan ke database dengan struktur terpisah antara produk, kategori, dan status.
 3. Data produk ditampilkan dalam bentuk tabel.
 4. Pengguna dapat:
@@ -143,6 +143,12 @@ npm install
 npm run build
 ```
 
+kalau ingin node selalu aktif, maka jalankan
+
+```bash
+npm run dev
+```
+
 ### 7. Import Data Produk dari API
 
 Jalankan server Laravel:
@@ -154,12 +160,14 @@ php artisan serve
 Lalu akses di browser:
 
 ```
-http://127.0.0.1:8000/import-produk
+http://127.0.0.1:8000/produk
 ```
+
+Klik tombol refresh data. Tombol itu akan mengambil data dari API dan memastikan halaman tidak berpindah
 
 Jika berhasil, akan muncul pesan:
 
-`Import produk berhasil`
+`Data produk berhasil diimpor dari API.`
 
 Jika gagal mengambil data dari API, pastikan **username** dan **password** di controller yang bernama `ProdukImportController.php` sudah benar
 
